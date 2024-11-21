@@ -1,9 +1,5 @@
 # DATA533_Project
 
-<<<<<<< HEAD
-666
-=======
-
 This RPG game package is designed as a turn-based battle simulator where players face off against NPCs in an arena, utilizing items and skills to gain an edge in combat. The package is organized into two sub-packages: Character and Gameplay. Each sub-package contains two modules, each with at least three methods or functions, supporting various aspects of the game. Inheritance is implemented in the Character sub-package.
 
 1. Character Sub-Package
@@ -26,4 +22,3 @@ This RPG game package is designed as a turn-based battle simulator where players
         - attack(attacker, defender): Executes an attack from one character to another.
         - start_combat(player, npc): Initiates and runs the combat rounds between player and NPC.
         - check_victory(player, npc): Checks HP to determine if either the player or NPC has won.
->>>>>>> b9d5db4a5ef202dc358b0dd065b52b05b46f4e33
