@@ -1,12 +1,12 @@
 import random
-class Player:
+class Npc:
     def __init__(self):
         self.hp = int(50 + 50 * random.random())
         self.atk = int(5 + 10 * random.random())
         self.crit = 30 * random.random()
         self.dodge = 30 * random.random()
 
-    def use_item(item):
+    def choose_attack(self):
         pass
 
     def take_damage(self, amount):
@@ -20,9 +20,8 @@ class Player:
         else:
             return False
 
-tallhand = Player()
-print(tallhand.hp)
-tallhand.take_damage(10)
-print(tallhand.hp)
-tallhand.take_damage(5)
-print(tallhand.hp)
+    def taunt_player():
+        pass
+
+npc = Npc()
+print(npc.hp)
