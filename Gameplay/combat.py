@@ -1,47 +1,54 @@
-import random
+# Gameplay/combat.py
+from Character.player import Player
+from Character.npc import NPC
 
-def attack(attacker, defender):
-    critical_hit = calculate_critical_hit(attacker)
-    damage = attacker.stats["ATK"] * (2 if critical_hit else 1)
-    defender.take_damage(damage)
-    return critical_hit
+def get_player_input():
+    """Function to get the player's input for the attack."""
+    print("Choose your attack:")
+    print("1: Basic Attack")
+    print("2: Heavy Strike")
+    print("3: Quick Attack")
+    return input("Enter the number of your choice: ")
 
-def calculate_critical_hit(attacker):
-    return random.random() < 0.1  # 10% chance for a critical hit
+def start_combat():
+    """Starts the combat between the player and the NPC."""
+    # Create NPC and player instances
+    npc = NPC()
+    player = Player()
 
-def start_combat(player, npc):
-    round_number = 1
-    while player.stats["HP"] > 0 and npc.stats["HP"] > 0:
-        print(f"\n--- Round {round_number} ---")
-        print(f"{player.name}'s turn:")
-        if not player.dodge_attack():
-            critical = attack(player, npc)
-            print(f"{npc.name} takes {'critical ' if critical else ''}damage!")
+    # Main combat loop
+    while player.hp > 0 and npc.hp > 0:
+        # Get player input and pass it to choose_attack
+        player_input = get_player_input()
+        player_attack = player.choose_attack(player_input)
+        print(f"Player chooses {player_attack['attack_type']}!")
+
+        # Check if NPC dodges orm
+        #  takes damage
+        if npc.dodge_attack(player_attack["dodge_chance_modifier"]):
+            print("NPC dodges the attack!")
         else:
-            print(f"{npc.name}'s attack missed!")
+            if player.critical_attack(player_attack["crit_chance_modifier"]):
+                npc.take_damage(player_attack["damage"] * 2)  # Critical hit
+                print("Player CRIT!")
+            else:
+                npc.take_damage(player_attack["damage"])
+            print(f"NPC's HP: {npc.hp}")
 
-        if npc.stats["HP"] <= 0:
-            print(f"{npc.name} has been defeated!")
-            return player
+        # NPC's turn (implement NPC behavior)
+        # For simplicity, you can make NPC also choose randomly or use any logic
+        npc_attack = npc.choose_attack()  # Assuming NPC has a similar method
+        print(f"NPC chooses {npc_attack['attack_type']}!")
 
-        print(f"{npc.name}'s turn:")
-        npc.taunt_player()
-        if not player.dodge_attack():
-            critical = attack(npc, player)
-            print(f"{player.name} takes {'critical ' if critical else ''}damage!")
+        # Simulate NPC's attack
+        if player.dodge_attack(npc_attack["dodge_chance_modifier"]):
+            print("Player dodges the attack!")
         else:
-            print(f"{player.name}'s attack missed!")
+            if npc.critical_attack(npc_attack["crit_chance_modifier"]):
+                player.take_damage(npc.atk * 2)  # Critical hit
+                print("NPC CRIT!")
+            else:
+                player.take_damage(npc.atk)
+            print(f"Player's HP: {player.hp}")
 
-        if player.stats["HP"] <= 0:
-            print(f"{player.name} has been defeated!")
-            return npc
-
-        round_number += 1
-
-def check_victory(player, npc):
-    if player.stats["HP"] > 0 and npc.stats["HP"] <= 0:
-        return f"{player.name} wins!"
-    elif npc.stats["HP"] > 0 and player.stats["HP"] <= 0:
-        return f"{npc.name} wins!"
-    else:
-        return "It's a draw!"
+    print("The battle is over!")

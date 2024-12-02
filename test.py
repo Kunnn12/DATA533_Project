@@ -1,10 +1,6 @@
 from Character.player import Player
 from Character.npc import NPC
+from Gameplay.combat import start_combat
 
-npc = NPC()
-print(npc.characteristic)
-print(npc.taunt_player())
-print(npc.taunt_player())
-print(npc.taunt_player())
-print(npc.taunt_player())
-print(npc.taunt_player())
+if __name__ == "__main__":
+    start_combat()
