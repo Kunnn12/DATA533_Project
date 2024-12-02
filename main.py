@@ -1,54 +1,46 @@
 from Character.player import Player
 from Character.npc import NPC
-from Gameplay.combat import start_combat, check_victory
+from Gameplay.combat import start_combat
+from Gameplay.events import handle_event
 from Gameplay.interface import (
-    display_event_description, display_stats, display_combat_round,
-    get_player_action, display_player_action_result, display_last_message,
-    display_visual_health_bar, display_ascii_art
+    display_ascii_art, display_stats, display_last_message
 )
 
 def main():
-    # ASCII Art for the start of the game
+    # 显示启动画面
     display_ascii_art("start")
     print("Welcome to the RPG Turn-Based Game!")
 
-    # Initialize player and NPC
-    player_name = input("Enter your character's name: ")
-    player = Player(name=player_name)
-    npc = NPC(name="Goblin")
+    # 初始化玩家和NPC
+    player_name = input("Enter your character's name: ").strip()
+    player = Player()
+    player.name = player_name
 
-    print("\nA wild Goblin appears!")
+    npc = NPC()
+    npc.name = "Goblin"
+
+    # 事件阶段
+    print("\nYour journey begins with a mysterious event...")
+    handle_event(player)
+
+    # 显示初始状态
+    print("\nHere are your stats after the event:")
     display_stats(player)
+    print("\nA wild Goblin appears to challenge you!")
     display_stats(npc)
 
-    # Start Combat
+    # 战斗阶段
     print("\nThe battle begins!")
-    round_number = 1
-    while player.stats["HP"] > 0 and npc.stats["HP"] > 0:
-        display_combat_round(round_number, player, npc)
-        display_visual_health_bar(player.name, player.stats["HP"], 100)
-        display_visual_health_bar(npc.name, npc.stats["HP"], 100)
+    start_combat(player, npc)
 
-        # Player chooses an action
-        action = get_player_action()
-        display_player_action_result(action)
+    # 确定胜者
+    winner = player.name if player.stats["HP"] > 0 else npc.name
+    result_message = f"The winner is {winner}!"
+    display_ascii_art("win" if winner == player.name else "lose")
+    display_last_message(result_message)
 
-        # Simple attack action for demonstration
-        if action == "1":
-            npc.stats["HP"] -= 10
-        elif action == "2":
-            player.stats["HP"] += 5
-        elif action == "3":
-            print("You skipped your turn!")
-
-        # NPC attacks
-        player.stats["HP"] -= 8
-        round_number += 1
-
-    # Display final result
-    result = check_victory(player, npc)
-    display_ascii_art("win" if result.startswith(player.name) else "lose")
-    display_last_message(result)
+    # 游戏结束提示
+    print("\nThanks for playing! Goodbye!")
 
 if __name__ == "__main__":
     main()

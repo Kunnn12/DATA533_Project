@@ -13,7 +13,9 @@ def generate_event():
         "Mysterious Chest",
         "Ambushed by Bandits",
         "Blessing from a Sage",
-        "Cursed Relic"
+        "Cursed Relic",
+        "Treasure Found",
+        "Wandering Spirit"
     ]
     return random.choice(events)
 
@@ -28,7 +30,9 @@ def get_item():
         {"name": "Defense Shield", "effect": {"DEF": 5}},
         {"name": "Poison Vial", "effect": {"HP": -10}},  # Negative effect
         {"name": "Mystic Orb", "effect": {"ATK": 10, "DEF": 10}},
-        {"name": "Cursed Amulet", "effect": {"HP": -20, "DEF": -5}}  # Negative effect
+        {"name": "Cursed Amulet", "effect": {"HP": -20, "DEF": -5}},  # Negative effect
+        {"name": "Golden Shield", "effect": {"DEF": 15, "HP": 10}},
+        {"name": "Energy Drink", "effect": {"HP": 10, "ATK": 5}}
     ]
     return random.choice(items)
 
@@ -39,7 +43,7 @@ def apply_item_effect(player, item):
     effect = item.get("effect", {})
     print(f"\nYou received {item['name']}!")
     for key, value in effect.items():
-        player.stats[key] = max(0, player.stats.get(key, 0) + value)  # Prevent negative stats
+        player.stats[key] = max(0, player.stats.get(key, 0) + value)
         print(f"{key} {'increased' if value > 0 else 'decreased'} by {abs(value)}.")
     print(f"Updated stats: {player.stats}")
 
@@ -100,3 +104,16 @@ def handle_event(player):
         item = {"name": "Cursed Relic", "effect": {"HP": -15, "ATK": -5}}
         apply_item_effect(player, item)
 
+    elif event == "Treasure Found":
+        print("You found a hidden treasure!")
+        item = {"name": "Gold Coins", "effect": {"HP": 10, "DEF": 5}}
+        apply_item_effect(player, item)
+
+    elif event == "Wandering Spirit":
+        print("A wandering spirit offers you power at a cost.")
+        choice = input("Do you accept its gift? (yes/no): ").strip().lower()
+        if choice == "yes":
+            item = {"name": "Spirit's Power", "effect": {"ATK": 20, "HP": -10}}
+            apply_item_effect(player, item)
+        else:
+            print("The spirit vanishes into the void.")
