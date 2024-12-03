@@ -30,7 +30,7 @@ class Player(Character):
             crit_chance_modifier = 0
         elif player_input in ["3", "quick attack"]:
             attack_choice = "Quick Attack"
-            damage = self.stats["ATK"] * 0.5
+            damage = self.stats["ATK"] * 0.7
             dodge_chance_modifier = -20  # Harder to dodge
             crit_chance_modifier = 15
         else:

@@ -14,21 +14,8 @@ def main():
     player = Player()
     player.name = player_name
 
-    if not player.stats:
-        print("Initializing player stats...")
-        player.stats = {
-            "HP": 100,
-            "ATK": 15,
-            "DEF": 10,
-        }
-
     npc = NPC()
     npc.name = "Goblin"
-    npc.stats = {
-        "HP": 80,
-        "ATK": 12,
-        "DEF": 8,
-    }
 
     print("\nYour journey begins with a mysterious event...")
     handle_event(player)

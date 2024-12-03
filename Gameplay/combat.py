@@ -64,7 +64,8 @@ def start_combat(player, npc):
         if player.stats["HP"] <= 0:
             print(f"{player.name} has been defeated!")
             break
-
+        
+        print(f"{npc.name} is taunting you: \"{npc.taunt_player()}\"")
         round_number += 1
 
     # Determine and Display Result

@@ -20,7 +20,7 @@ def display_ascii_art(title):
     Displays ASCII art for important game events using pyfiglet.
     """
     art_map = {
-        "start": pyfiglet.figlet_format("Simple Battle"),  # 修改游戏名称
+        "start": pyfiglet.figlet_format("Simple Battle"),
         "win": pyfiglet.figlet_format("Victory!"),
         "lose": pyfiglet.figlet_format("Defeat...")
     }
