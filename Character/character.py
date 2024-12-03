@@ -10,8 +10,8 @@ class Character:
         return {
             "HP": int(50 + 50 * random.random()),
             "ATK": int(5 + 10 * random.random()),
-            "CRIT": int(30 * random.random()),
-            "DODGE": int(30 * random.random())
+            "CRIT": int(10 + 20 * random.random()),  # Critical hit chance
+            "DODGE": int(10 + 20 * random.random())  # Dodge chance
         }
 
     def take_damage(self, damage):
@@ -19,14 +19,11 @@ class Character:
 
     def dodge_attack(self, dodge_chance_modifier):
         dodge_chance = int(100 * random.random())
-        if dodge_chance <= self.stats["DODGE"] + dodge_chance_modifier:
-            return True
-        else:
-            return False
-        
+        dodge_value = self.stats.get("DODGE", 0)  
+        return dodge_chance <= dodge_value + dodge_chance_modifier
+
     def critical_attack(self, crit_chance_modifier):
         critical_chance = int(100 * random.random())
-        if critical_chance <= self.stats["DODGE"] + crit_chance_modifier:
-            return True
-        else:
-            return False
+        crit_value = self.stats.get("CRIT", 0) 
+        return critical_chance <= crit_value + crit_chance_modifier
+

@@ -2,12 +2,6 @@ import pyfiglet
 from colorama import Fore, Style
 import sys
 import time
-import random
-
-try:
-    from playsound import playsound
-except ImportError:
-    print("Playsound module not installed. Run 'pip install playsound' for sound effects support.")
 
 # Typing Effect for Text
 def print_with_delay(text, delay=0.05):
@@ -26,15 +20,11 @@ def display_ascii_art(title):
     Displays ASCII art for important game events using pyfiglet.
     """
     art_map = {
-        "start": pyfiglet.figlet_format("RPG Game"),
+        "start": pyfiglet.figlet_format("Simple Battle"),  # 修改游戏名称
         "win": pyfiglet.figlet_format("Victory!"),
         "lose": pyfiglet.figlet_format("Defeat...")
     }
     print(Fore.CYAN + art_map.get(title, "") + Style.RESET_ALL)
-    if title == "win":
-        play_sound("win.mp3")
-    elif title == "lose":
-        play_sound("lose.mp3")
 
 # Enhanced Stats Display
 def display_stats(character):
@@ -65,30 +55,29 @@ def get_player_action():
     Displays an interactive menu for the player's action.
     """
     actions = {
-        "1": "Basic Attack",
-        "2": "Heavy Strike",
-        "3": "Quick Attack",
+        "1": "Attack",
+        "2": "Use Item",
+        "3": "Skip Turn",
     }
-    print("\nChoose your attack:")
+    print(Fore.BLUE + "\nChoose your action:")
     for key, action in actions.items():
         print(f"{key}. {action}")
+    print(Style.RESET_ALL)
 
     while True:
-        action = input("Enter the number of your attack: ").strip()
+        action = input(Fore.LIGHTBLUE_EX + "Enter the number of your action: " + Style.RESET_ALL)
         if action in actions:
             return action
-        print("Invalid choice, try again.")
-
+        print(Fore.RED + "Invalid choice, try again." + Style.RESET_ALL)
 
 # Result Display
 def display_last_message(result):
     """
-    Displays the result of the combat with sound and animation.
+    Displays the result of the combat with animation.
     """
     print(Fore.RED + "=" * 40)
     print_with_delay(f"Final Result: {result}")
     print("=" * 40 + Style.RESET_ALL)
-    play_sound("result.mp3")
 
 # Event Description
 def display_event_description(event):
@@ -98,16 +87,6 @@ def display_event_description(event):
     print(Fore.MAGENTA + "=" * 40)
     print_with_delay(f"Event: {event}")
     print("=" * 40 + Style.RESET_ALL)
-
-# Sound Effect Handler
-def play_sound(sound_file):
-    """
-    Plays sound effects for important game events.
-    """
-    try:
-        playsound(sound_file)
-    except Exception:
-        print("(Sound effect not available or skipped)")
 
 # Combat Round Display
 def display_combat_round(round_number, player, npc):
@@ -119,5 +98,3 @@ def display_combat_round(round_number, player, npc):
     display_visual_health_bar(player.name, player.stats["HP"], 100)
     display_visual_health_bar(npc.name, npc.stats["HP"], 100)
     print("-" * 40 + Style.RESET_ALL)
-
-

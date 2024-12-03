@@ -16,7 +16,6 @@ class Player(Character):
         dodge_chance_modifier = 0
         crit_chance_modifier = 0  # Modifier for the crit chance
 
-        # 改进输入解析
         player_input = player_input.strip().lower()
 
         if player_input in ["1", "basic attack"]:
@@ -47,4 +46,3 @@ class Player(Character):
             "dodge_chance_modifier": dodge_chance_modifier,
             "crit_chance_modifier": crit_chance_modifier
         }
-

@@ -6,25 +6,40 @@ from Gameplay.interface import (
 
 def execute_player_turn(player, npc):
     """
-    Handles the player's turn: processes the player's chosen attack.
+    Handles the player's turn: processes the player's chosen action.
     """
     action = get_player_action()
 
-    # 玩家选择攻击
-    player_attack = player.choose_attack(action)
-    print(f"{player.name} chooses {player_attack['attack_type']}!")
+    if action == "1":  # Attack
+        attack_choice = input("Choose your attack: 1. Basic Attack  2. Heavy Strike  3. Quick Attack\n")
+        player_attack = player.choose_attack(attack_choice)
+        print(f"{player.name} chooses {player_attack['attack_type']}!")
+        if npc.dodge_attack(player_attack["dodge_chance_modifier"]):
+            print(f"{npc.name} dodges the attack!")
+        else:
+            damage = player_attack["damage"]
+            if player.critical_attack(player_attack["crit_chance_modifier"]):
+                damage *= 2
+                print("Critical Hit!")
+            npc.take_damage(damage)
+            print(f"{npc.name} takes {damage} damage. Remaining HP: {npc.stats['HP']}")
 
-    # 判断 NPC 是否闪避攻击
-    if npc.dodge_attack(player_attack["dodge_chance_modifier"]):
-        print(f"{npc.name} dodges the attack!")
-    else:
-        damage = player_attack["damage"]
-        # 判断是否触发暴击
-        if player.critical_attack(player_attack["crit_chance_modifier"]):
-            damage *= 2
-            print("Critical Hit!")
-        npc.take_damage(damage)
-        print(f"{npc.name} takes {damage} damage. Remaining HP: {npc.stats['HP']}")
+    elif action == "2":  # Use Item
+        if player.items:
+            print("Available items:")
+            for i, item in enumerate(player.items, 1):
+                print(f"{i}. {item['name']}")
+            item_choice = int(input("Choose an item to use: ")) - 1
+            if 0 <= item_choice < len(player.items):
+                player.use_item(player.items[item_choice])
+                print(f"You used {player.items[item_choice]['name']}!")
+            else:
+                print("Invalid item choice.")
+        else:
+            print("You have no items to use!")
+
+    elif action == "3":  # Skip Turn
+        print(f"{player.name} skips the turn.")
 
 def execute_npc_turn(npc, player):
     """
@@ -69,4 +84,3 @@ def start_combat(player, npc):
     # Determine and Display Result
     winner = player.name if player.stats["HP"] > 0 else npc.name
     display_last_message(f"The winner is {winner}!")
-

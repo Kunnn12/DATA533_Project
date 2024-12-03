@@ -1,11 +1,11 @@
 from Character.character import Character
 import random
+
 class NPC(Character):
     def __init__(self):
         super().__init__(name="Enemy")
         self.characteristic = random.choice(["gentle", "rude", "neutral"])
 
-    
     def choose_attack(self):
         attacks = ["Basic Attack", "Heavy Strike", "Quick Attack"]
         chosen_attack = random.choice(attacks)
@@ -25,7 +25,7 @@ class NPC(Character):
             damage = self.stats["ATK"] * 0.5  # Lower damage
             dodge_chance_modifier = -20  # Harder to dodge
             crit_chance_modifier = 15  # Increased crit chance
-        
+
         return {
             "attack_type": attack_choice,
             "damage": damage,
@@ -57,8 +57,5 @@ class NPC(Character):
                 "May the best fighter win!",
             ],
         }
-        characteristic_taunt =  taunts.get(self.characteristic, taunts["neutral"])
+        characteristic_taunt = taunts.get(self.characteristic, taunts["neutral"])
         return random.choice(characteristic_taunt)
-    
-    
-
