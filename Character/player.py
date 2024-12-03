@@ -21,23 +21,23 @@ class Player(Character):
 
         if player_input in ["1", "basic attack"]:
             attack_choice = "Basic Attack"
-            damage = self.atk
+            damage = self.stats["ATK"]
             dodge_chance_modifier = 0
             crit_chance_modifier = 0
         elif player_input in ["2", "heavy strike"]:
             attack_choice = "Heavy Strike"
-            damage = self.atk * 1.5
+            damage = self.stats["ATK"] * 1.5
             dodge_chance_modifier = 20  # Easier to dodge
             crit_chance_modifier = 0
         elif player_input in ["3", "quick attack"]:
             attack_choice = "Quick Attack"
-            damage = self.atk * 0.5
+            damage = self.stats["ATK"] * 0.5
             dodge_chance_modifier = -20  # Harder to dodge
             crit_chance_modifier = 15
         else:
             print("Invalid input, defaulting to Basic Attack.")
             attack_choice = "Basic Attack"
-            damage = self.atk
+            damage = self.stats["ATK"]
             dodge_chance_modifier = 0
             crit_chance_modifier = 0
 

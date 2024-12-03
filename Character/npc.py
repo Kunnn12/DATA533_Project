@@ -12,17 +12,17 @@ class NPC(Character):
 
         if chosen_attack == "Basic Attack":
             attack_choice = "Basic Attack"
-            damage = self.atk
+            damage = self.stats["ATK"]
             dodge_chance_modifier = 0  # Normal dodge chance
             crit_chance_modifier = 0  # Normal crit chance
         elif chosen_attack == "Heavy Strike":
             attack_choice = "Heavy Strike"
-            damage = self.atk * 1.5  # Increased damage
+            damage = self.stats["ATK"] * 1.5  # Increased damage
             dodge_chance_modifier = 20  # Easier to dodge
             crit_chance_modifier = 0  # Normal crit chance
         else:
             attack_choice = "Quick Attack"
-            damage = self.atk * 0.5  # Lower damage
+            damage = self.stats["ATK"] * 0.5  # Lower damage
             dodge_chance_modifier = -20  # Harder to dodge
             crit_chance_modifier = 15  # Increased crit chance
         
