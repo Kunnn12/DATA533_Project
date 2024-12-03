@@ -13,7 +13,11 @@ def generate_event():
         "Mysterious Chest",
         "Ambushed by Bandits",
         "Blessing from a Sage",
-        "Cursed Relic"
+        "Cursed Relic",
+        "Treasure Found",
+        "Wandering Spirit",
+        "Nimble Training",
+        "Sharpen Focus"
     ]
     return random.choice(events)
 
@@ -25,10 +29,12 @@ def get_item():
     items = [
         {"name": "Healing Potion", "effect": {"HP": 20}},
         {"name": "Attack Boost", "effect": {"ATK": 5}},
-        {"name": "Defense Shield", "effect": {"DEF": 5}},
         {"name": "Poison Vial", "effect": {"HP": -10}},  # Negative effect
-        {"name": "Mystic Orb", "effect": {"ATK": 10, "DEF": 10}},
-        {"name": "Cursed Amulet", "effect": {"HP": -20, "DEF": -5}}  # Negative effect
+        {"name": "Mystic Orb", "effect": {"ATK": 10}},
+        {"name": "Cursed Amulet", "effect": {"HP": -20}},  # Negative effect
+        {"name": "Energy Drink", "effect": {"HP": 10, "ATK": 5}},
+        {"name": "Focus Elixir", "effect": {"CRIT": 10}},  # New: Boosts critical rate
+        {"name": "Evasion Boots", "effect": {"DODGE": 10}}  # New: Boosts dodge ability
     ]
     return random.choice(items)
 
@@ -39,7 +45,7 @@ def apply_item_effect(player, item):
     effect = item.get("effect", {})
     print(f"\nYou received {item['name']}!")
     for key, value in effect.items():
-        player.stats[key] = max(0, player.stats.get(key, 0) + value)  # Prevent negative stats
+        player.stats[key] = max(0, player.stats.get(key, 0) + value)
         print(f"{key} {'increased' if value > 0 else 'decreased'} by {abs(value)}.")
     print(f"Updated stats: {player.stats}")
 
@@ -63,10 +69,17 @@ def handle_event(player):
         apply_item_effect(player, item)
 
     elif event == "Meet a Merchant":
-        print("You met a merchant! He offers to sell you a shield for 5 gold.")
-        choice = input("Do you buy the shield? (yes/no): ").strip().lower()
-        if choice == "yes":
-            item = {"name": "Merchant's Shield", "effect": {"DEF": 10}}
+        print("You met a merchant! He offers to sell you an item:")
+        merchant_items = [
+            {"name": "Merchant's Weapon", "effect": {"ATK": 10}},
+            {"name": "Focus Elixir", "effect": {"CRIT": 10}},
+            {"name": "Evasion Boots", "effect": {"DODGE": 10}}
+        ]
+        for i, item in enumerate(merchant_items, 1):
+            print(f"{i}. {item['name']} ({item['effect']})")
+        choice = input("Choose an item to buy (1/2/3) or type 'no' to skip: ").strip().lower()
+        if choice in ["1", "2", "3"]:
+            item = merchant_items[int(choice) - 1]
             apply_item_effect(player, item)
         else:
             print("You walk away from the merchant.")
@@ -78,6 +91,8 @@ def handle_event(player):
             # Random reward or punishment
             chest_rewards = [
                 {"name": "Treasure", "effect": {"HP": 30, "ATK": 10}},
+                {"name": "Focus Elixir", "effect": {"CRIT": 10}},  # Boost crit chance
+                {"name": "Evasion Boots", "effect": {"DODGE": 10}},  # Boost dodge ability
                 {"name": "Poison Gas", "effect": {"HP": -20}}
             ]
             item = random.choice(chest_rewards)
@@ -92,7 +107,7 @@ def handle_event(player):
 
     elif event == "Blessing from a Sage":
         print("A sage blesses you with magical energy!")
-        item = {"name": "Sage's Blessing", "effect": {"HP": 20, "ATK": 10, "DEF": 10}}
+        item = {"name": "Sage's Blessing", "effect": {"HP": 20, "ATK": 10}}
         apply_item_effect(player, item)
 
     elif event == "Cursed Relic":
@@ -100,3 +115,26 @@ def handle_event(player):
         item = {"name": "Cursed Relic", "effect": {"HP": -15, "ATK": -5}}
         apply_item_effect(player, item)
 
+    elif event == "Treasure Found":
+        print("You found a hidden treasure!")
+        item = {"name": "Gold Coins", "effect": {"HP": 10}}
+        apply_item_effect(player, item)
+
+    elif event == "Wandering Spirit":
+        print("A wandering spirit offers you power at a cost.")
+        choice = input("Do you accept its gift? (yes/no): ").strip().lower()
+        if choice == "yes":
+            item = {"name": "Spirit's Power", "effect": {"ATK": 20, "HP": -10}}
+            apply_item_effect(player, item)
+        else:
+            print("The spirit vanishes into the void.")
+
+    elif event == "Nimble Training":
+        print("You attended a training session to improve your agility!")
+        item = {"name": "Agility Boost", "effect": {"DODGE": 15}}
+        apply_item_effect(player, item)
+
+    elif event == "Sharpen Focus":
+        print("You spent time sharpening your focus, enhancing your critical strikes!")
+        item = {"name": "Focus Training", "effect": {"CRIT": 15}}
+        apply_item_effect(player, item)

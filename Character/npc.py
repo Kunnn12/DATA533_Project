@@ -1,31 +1,31 @@
 from Character.character import Character
 import random
+
 class NPC(Character):
     def __init__(self):
         super().__init__(name="Enemy")
         self.characteristic = random.choice(["gentle", "rude", "neutral"])
 
-    
     def choose_attack(self):
         attacks = ["Basic Attack", "Heavy Strike", "Quick Attack"]
         chosen_attack = random.choice(attacks)
 
         if chosen_attack == "Basic Attack":
             attack_choice = "Basic Attack"
-            damage = self.atk
+            damage = self.stats["ATK"]
             dodge_chance_modifier = 0  # Normal dodge chance
             crit_chance_modifier = 0  # Normal crit chance
         elif chosen_attack == "Heavy Strike":
             attack_choice = "Heavy Strike"
-            damage = self.atk * 1.5  # Increased damage
+            damage = self.stats["ATK"] * 1.5  # Increased damage
             dodge_chance_modifier = 20  # Easier to dodge
             crit_chance_modifier = 0  # Normal crit chance
         else:
             attack_choice = "Quick Attack"
-            damage = self.atk * 0.5  # Lower damage
+            damage = self.stats["ATK"] * 0.5  # Lower damage
             dodge_chance_modifier = -20  # Harder to dodge
             crit_chance_modifier = 15  # Increased crit chance
-        
+
         return {
             "attack_type": attack_choice,
             "damage": damage,
@@ -57,8 +57,5 @@ class NPC(Character):
                 "May the best fighter win!",
             ],
         }
-        characteristic_taunt =  taunts.get(self.characteristic, taunts["neutral"])
+        characteristic_taunt = taunts.get(self.characteristic, taunts["neutral"])
         return random.choice(characteristic_taunt)
-    
-    
-
