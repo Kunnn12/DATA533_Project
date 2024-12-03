@@ -24,21 +24,7 @@ def execute_player_turn(player, npc):
             npc.take_damage(damage)
             print(f"{npc.name} takes {damage} damage. Remaining HP: {npc.stats['HP']}")
 
-    elif action == "2":  # Use Item
-        if player.items:
-            print("Available items:")
-            for i, item in enumerate(player.items, 1):
-                print(f"{i}. {item['name']}")
-            item_choice = int(input("Choose an item to use: ")) - 1
-            if 0 <= item_choice < len(player.items):
-                player.use_item(player.items[item_choice])
-                print(f"You used {player.items[item_choice]['name']}!")
-            else:
-                print("Invalid item choice.")
-        else:
-            print("You have no items to use!")
-
-    elif action == "3":  # Skip Turn
+    elif action == "2":  # Skip Turn
         print(f"{player.name} skips the turn.")
 
 def execute_npc_turn(npc, player):

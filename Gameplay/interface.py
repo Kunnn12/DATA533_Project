@@ -56,10 +56,9 @@ def get_player_action():
     """
     actions = {
         "1": "Attack",
-        "2": "Use Item",
-        "3": "Skip Turn",
+        "2": "Skip Turn",
     }
-    print(Fore.BLUE + "\nChoose your action:")
+    print("\nChoose your action:")
     for key, action in actions.items():
         print(f"{key}. {action}")
     print(Style.RESET_ALL)
@@ -69,6 +68,7 @@ def get_player_action():
         if action in actions:
             return action
         print(Fore.RED + "Invalid choice, try again." + Style.RESET_ALL)
+
 
 # Result Display
 def display_last_message(result):
