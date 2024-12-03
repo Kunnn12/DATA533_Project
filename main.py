@@ -7,6 +7,26 @@ from Gameplay.interface import (
 )
 
 def main():
+    """
+    The main function to start and execute the game.
+
+    It initializes the game, allows the player to create a character, 
+    triggers a random event to modify player stats, and starts a combat session 
+    between the player and an NPC. After the battle concludes, it displays the 
+    result and ends the game.
+
+    Flow:
+    1. Display the game title with ASCII art.
+    2. Create a player character and an NPC opponent.
+    3. Trigger a random event that can positively or negatively impact the player's stats.
+    4. Display updated stats for the player and NPC.
+    5. Start and manage a turn-based combat sequence.
+    6. Display the winner and a closing message.
+
+    Note:
+    - The player's and NPC's stats are updated dynamically during the event and combat.
+    - ASCII art and visual elements enhance the gaming experience.
+    """
     display_ascii_art("start")
     print("Welcome to Simple Battle!")  
 
