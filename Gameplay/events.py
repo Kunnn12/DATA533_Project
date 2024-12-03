@@ -3,7 +3,13 @@ import random
 def generate_event():
     """
     Randomly selects an event that can happen during the game.
-    Events include positive and negative outcomes.
+    
+    Events represent encounters or situations the player may face, which 
+    can have positive or negative outcomes. Examples include finding items,
+    meeting characters, or encountering dangers.
+
+    Returns:
+        str: The name of the randomly selected event.
     """
     events = [
         "Find Healing Potion",
@@ -21,26 +27,17 @@ def generate_event():
     ]
     return random.choice(events)
 
-def get_item():
-    """
-    Randomly assigns an item to the player.
-    Items have different effects, either positive or negative.
-    """
-    items = [
-        {"name": "Healing Potion", "effect": {"HP": 20}},
-        {"name": "Attack Boost", "effect": {"ATK": 5}},
-        {"name": "Poison Vial", "effect": {"HP": -10}},  # Negative effect
-        {"name": "Mystic Orb", "effect": {"ATK": 10}},
-        {"name": "Cursed Amulet", "effect": {"HP": -20}},  # Negative effect
-        {"name": "Energy Drink", "effect": {"HP": 10, "ATK": 5}},
-        {"name": "Focus Elixir", "effect": {"CRIT": 10}},  # New: Boosts critical rate
-        {"name": "Evasion Boots", "effect": {"DODGE": 10}}  # New: Boosts dodge ability
-    ]
-    return random.choice(items)
-
 def apply_item_effect(player, item):
     """
-    Applies the effects of the item to the player's stats.
+    Applies the effects of an item to the player's stats.
+
+    The item's effects are applied to the corresponding stats, updating 
+    them accordingly. Positive effects increase stats, while negative 
+    effects decrease them.
+
+    Args:
+        player (Character): The player instance receiving the item's effect.
+        item (dict): The item with its name and effect attributes.
     """
     effect = item.get("effect", {})
     print(f"\nYou received {item['name']}!")
@@ -51,7 +48,14 @@ def apply_item_effect(player, item):
 
 def handle_event(player):
     """
-    Triggers a random event and applies its effects to the player.
+    Triggers a random event and processes its effects on the player.
+    
+    Depending on the event, the player may receive an item, encounter a
+    hazard, or interact with a character. Player choices may influence 
+    the outcome of some events.
+
+    Args:
+        player (Character): The player instance experiencing the event.
     """
     event = generate_event()
     print(f"\nEvent: {event}")

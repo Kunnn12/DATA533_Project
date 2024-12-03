@@ -6,7 +6,15 @@ from Gameplay.interface import (
 
 def execute_player_turn(player, npc):
     """
-    Handles the player's turn: processes the player's chosen action.
+    Executes the player's turn in combat.
+
+    The player selects an action: attack or skip the turn. 
+    If the player chooses to attack, they select the type of attack, which is then processed. 
+    Damage and dodge mechanics are applied accordingly.
+
+    Args:
+        player (Player): The player character instance.
+        npc (NPC): The enemy character instance.
     """
     action = get_player_action()
 
@@ -29,7 +37,14 @@ def execute_player_turn(player, npc):
 
 def execute_npc_turn(npc, player):
     """
-    Handles the NPC's turn: randomly chooses and executes an attack.
+    Executes the NPC's turn in combat.
+
+    The NPC randomly selects an attack, which is then processed. 
+    Damage and dodge mechanics are applied accordingly.
+
+    Args:
+        npc (NPC): The enemy character instance.
+        player (Player): The player character instance.
     """
     npc_attack = npc.choose_attack()
     print(f"{npc.name} chooses {npc_attack['attack_type']}!")
@@ -45,7 +60,17 @@ def execute_npc_turn(npc, player):
 
 def start_combat(player, npc):
     """
-    Starts and manages the combat loop between the player and the NPC.
+    Manages the combat loop between the player and the NPC.
+
+    Alternates turns between the player and the NPC until one of them is defeated. 
+    The combat process includes attack selection, damage calculations, and taunts from the NPC.
+
+    Args:
+        player (Player): The player character instance.
+        npc (NPC): The enemy character instance.
+
+    Prints:
+        The sequence of combat events and the final winner of the battle.
     """
     round_number = 1
 
