@@ -12,30 +12,34 @@ Defines the characters participating in the game, including both players and NPC
 
 #### Modules:
 - **`character.py`**
-  - The base `Character` class, providing shared properties and methods.
+  - The base `Character` class provides shared properties and methods for all characters in the game.
   - **Functions:**
+    - `__init__(name="Unnamed")`: Initializes a character with a name, random stats, and an empty inventory.
     - `generate_stats()`: Randomly assigns stats for a character:
       - **HP (Health Points):** Range 50-100.
       - **ATK (Attack Power):** Range 5-15.
       - **CRIT (Critical Hit Chance):** Range 10-30%.
       - **DODGE (Dodge Chance):** Range 10-30%.
-    - `take_damage(damage)`: Reduces the character's HP by the specified damage value. Ensures HP does not fall below 0.
-    - `dodge_attack(dodge_modifier)`: Determines if the character successfully dodges an incoming attack based on dodge stats and modifiers.
+    - `take_damage(damage)`: Reduces the character's HP by a specified damage value. Ensures HP does not fall below 0.
+    - `dodge_attack(dodge_modifier)`: Determines if the character successfully dodges an incoming attack using their dodge stats and a modifier.
     - `critical_attack(crit_modifier)`: Determines if a critical hit occurs, doubling the damage dealt.
 
 - **`player.py`**
-  - The `Player` class inherits from `Character`.
+  - The `Player` class inherits from `Character` and represents the user-controlled player.
   - **Functions:**
-    - `choose_attack(player_input)`: Allows the player to select an attack type (Basic, Heavy, or Quick) and returns its details:
-      - **Basic Attack:** Normal damage, standard dodge/crit chance.
-      - **Heavy Strike:** Higher damage, easier to dodge.
-      - **Quick Attack:** Lower damage, harder to dodge, higher crit chance.
+    - `__init__()`: Initializes the player with default stats and an empty inventory.
+    - `use_item(item)`: Applies the effect of an item to the player's stats. The item's effects are defined in a dictionary:
+    - `choose_attack(player_input)`: Allows the player to select an attack type:
+      - **Basic Attack:** Standard damage and dodge/crit chance.
+      - **Heavy Strike:** High damage but easier to dodge.
+      - **Quick Attack:** Lower damage but harder to dodge and higher crit chance.
 
 - **`npc.py`**
-  - The `NPC` class inherits from `Character` and represents the non-playable opponent.
+  - The `NPC` class inherits from `Character` and represents the non-playable opponents.
   - **Functions:**
+    - `__init__()`: Initializes the NPC with a default name ("Enemy") and a random characteristic ("gentle", "rude", or "neutral").
     - `choose_attack()`: Randomly selects an attack type (Basic, Heavy, or Quick) and returns its details.
-    - `taunt_player()`: Generates a random taunt based on the NPC's personality ("gentle", "rude", or "neutral").
+    - `taunt_player()`: Generates a random taunt based on the NPC's characteristic.
 
 ---
 
@@ -44,53 +48,27 @@ Manages game mechanics, including random events, combat, and user interface inte
 
 #### Modules:
 - **`events.py`**
-  - Generates random events that modify player stats.
+  - Handles random events that modify the player's stats or present challenges.
   - **Functions:**
-    - `generate_event()`: Randomly selects an event from a predefined list.
+    - `generate_event()`: Randomly selects an event from a predefined list of encounters.
     - `apply_item_effect(player, item)`: Applies the effects of an item (e.g., boost `CRIT`, `DODGE`, or `HP`) to the player's stats.
-    - `handle_event(player)`: Executes a random event, such as discovering a weapon, avoiding a trap, or training to improve stats.
+    - `handle_event(player)`: Triggers a random event and processes its outcome, such as discovering items, avoiding traps, or enhancing stats.
 
 - **`combat.py`**
   - Manages the turn-based combat system.
   - **Functions:**
-    - `execute_player_turn(player, npc)`: Prompts the player to choose an action (Attack or Skip Turn) and processes the chosen action.
+    - `execute_player_turn(player, npc)`: Prompts the player to choose an action (Attack or Skip Turn) and processes the action's result.
     - `execute_npc_turn(npc, player)`: Processes the NPC's turn by randomly selecting and executing an attack.
     - `start_combat(player, npc)`: Alternates turns between the player and the NPC until one is defeated, incorporating dodge and critical hit mechanics.
 
 - **`interface.py`**
-  - Handles user interaction and game display elements.
+  - Handles the display and user interactions during the game.
   - **Functions:**
-    - `display_ascii_art(title)`: Displays ASCII art for important game events like "Victory" or "Defeat."
-    - `display_stats(character)`: Displays the current stats of a character.
-    - `display_combat_round(round_number, player, npc)`: Shows the combat round's details, including health bars and stats.
-    - `get_player_action()`: Prompts the player to choose an action (e.g., Attack or Skip Turn).
-    - `display_last_message(result)`: Displays the result of the battle with animations.
-
----
-
-## Game Flow
-1. **Start Screen:**
-   - The game displays the title "Simple Battle" with ASCII art.
-   - The player is prompted to enter their name.
-
-2. **Random Event:**
-   - A random event occurs, potentially affecting the player's stats.
-   - Events include finding items, training to boost `CRIT` or `DODGE`, and avoiding traps.
-
-3. **Combat:**
-   - A turn-based combat sequence begins against an NPC.
-   - The player and NPC take turns attacking until one is defeated.
-   - Combat includes mechanics for dodging and critical hits.
-
-4. **End Screen:**
-   - The game declares the winner and displays a closing message.
-
----
-
-## How to Play
-1. Clone or download the repository.
-2. Ensure all dependencies (e.g., `pyfiglet`, `colorama`) are installed:
-   ```bash
-   pip install pyfiglet colorama
-
-        
+    - `print_with_delay(text, delay=0.05)`: Prints text with a typing effect to enhance engagement.
+    - `display_ascii_art(title)`: Displays ASCII art for significant game moments like "Victory" or "Defeat."
+    - `display_stats(character)`: Displays the current stats of a character with color-coded values.
+    - `display_visual_health_bar(name, hp, max_hp)`: Renders a visual health bar for a character using emojis.
+    - `get_player_action()`: Prompts the player to choose an action (e.g., Attack or Skip Turn) and validates the input.
+    - `display_last_message(result)`: Displays the final result of the battle.
+    - `display_event_description(event)`: Describes a random event with animated text.
+    - `display_combat_round(round_number, player, npc)`: Shows the details of the current combat round, including health bars and round number.
