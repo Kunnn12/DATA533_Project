@@ -1,4 +1,9 @@
 import unittest
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from Gameplay.interface import display_stats
 from Character.player import Player
 
@@ -22,3 +27,6 @@ class TestInterface(unittest.TestCase):
             display_stats(self.player)
         except Exception as e:
             self.fail(f"display_stats raised an exception: {e}")
+
+if __name__ == '__main__':
+    unittest.main()
